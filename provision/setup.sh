@@ -19,8 +19,8 @@ apt install virtualbox-guest-x11 -y
 ## GIT
 ##############################################################################
 apt install git
-git config --global user.email "m.llewellynjones@gmail.com"
-git config --global user.name "Matt Llewellyn-Jones"
+su - ubuntu -c 'git config --global user.email "m.llewellynjones@gmail.com"'
+su - ubuntu -c 'git config --global user.name "Matt Llewellyn-Jones"'
 
 ##############################################################################
 ## VIM
@@ -80,19 +80,19 @@ apt install postgresql -y
 apt install python-psycopg2 -y
 apt install libpq-dev -y
 
--u postgres createuser ubuntu -s
+sudo -u postgres createuser ubuntu -s
 
 ##############################################################################
 ## FILES FROM GIT
 ##############################################################################
 echo "Grabbing files from GIT..."
-mkdir -p /home/ubuntu/dotfiles
-git clone git://github.com/mllewellynjones/dotfiles.git /home/ubuntu/dotfiles
-mv /home/ubuntu/dotfiles/.b* /home/ubuntu/dotfiles/.v* /home/ubuntu
-sudo rm -rf /home/ubuntu/dotfiles
+su - ubuntu -c 'mkdir -p /home/ubuntu/dotfiles'
+su - ubuntu -c 'git clone git://github.com/mllewellynjones/dotfiles.git /home/ubuntu/dotfiles'
+su - ubuntu -c 'mv /home/ubuntu/dotfiles/.b* /home/ubuntu/dotfiles/.v* /home/ubuntu'
+su - ubuntu -c 'sudo rm -rf /home/ubuntu/dotfiles'
 
-mkdir -p /home/ubuntu/scripts
-git clone git://github.com/mllewellynjones/scripts.git /home/ubuntu/scripts
+su - ubuntu -c 'mkdir -p /home/ubuntu/scripts'
+su - ubuntu -c 'git clone git://github.com/mllewellynjones/scripts.git /home/ubuntu/scripts'
 
 ##############################################################################
 ## CONVERT TO DESKTOP
