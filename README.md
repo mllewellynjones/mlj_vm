@@ -12,7 +12,7 @@ You will need to install:
 
   `git clone git://github.com/mllewellynjones/mlj_vm.git`
 
-- Run `vagrant up` and got and get a coffee, this takes a long time
+- Run `vagrant up` and go and get a coffee, this takes a long time
 
 - `vagrant ssh` into the VM and change the ubuntu password (or create a new user)
 
