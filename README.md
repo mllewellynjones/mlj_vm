@@ -1,9 +1,11 @@
 Getting Started
 ======
 
-You will need to install:
+First install:
 - Virtualbox
 - Vagrant
+
+Then:
 - Get the reload plugin with: 
 
   `vagrant plugin install vagrant-reload`
