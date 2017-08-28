@@ -19,3 +19,10 @@ Then:
 - `vagrant ssh` into the VM and change the ubuntu password (or create a new user)
 
 - Log into the VM through VirtualBox
+
+To Do
+=====
+
+- Set up default passwords for Ubuntu user with Expects
+- Look into Celery for message passing between guest and host processes (with port forwarding)
+- Add scripts folder to PATH in .bashrc
