@@ -26,3 +26,6 @@ To Do
 - Set up default passwords for Ubuntu user with Expects
 - Look into Celery for message passing between guest and host processes (with port forwarding)
 - Add scripts folder to PATH in .bashrc
+- Include virtualenv wrapper by default
+- Checkout mlj_vm into VM for ongoing updates
+- Modify dotfiles to use symlinks
