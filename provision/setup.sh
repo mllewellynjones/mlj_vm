@@ -98,7 +98,7 @@ su - ubuntu -c 'mkdir -p /home/ubuntu/scripts'
 su - ubuntu -c 'git clone https://github.com/mllewellynjones/scripts.git /home/ubuntu/scripts'
 
 su - ubuntu -c 'mkdir -p /home/ubuntu/mlj_vm'
-su - ubuntu -c 'git clone https://github.com/mllewellynjones/scripts.git /home/ubuntu/mlj_vm'
+su - ubuntu -c 'git clone https://github.com/mllewellynjones/mlj_vm.git /home/ubuntu/mlj_vm'
 
 ##############################################################################
 ## RUN SOME OF THE SCRIPTS

@@ -1,5 +1,3 @@
-# Require the reboot plugin.
-
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/xenial64"
   config.vm.synced_folder "./", "/var/www", create: true, group: "www-data", owner: "www-data"
@@ -17,6 +15,4 @@ Vagrant.configure("2") do |config|
     s.path = "provision/setup.sh"
   end
   
-   config.vm.provision :reload
-
 end
