@@ -112,4 +112,3 @@ su - ubuntu -c '/home/ubuntu/dotfiles/setup_symlinks.sh'
 # Although the GUI isn't required, the support for getting screen resolutions
 # correct is far more mature
 apt install ubuntu-desktop -y
-/home/ubuntu/scripts/adjust.sh
