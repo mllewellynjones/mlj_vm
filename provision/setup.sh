@@ -85,7 +85,7 @@ apt install libpq-dev -y
 
 sudo -u postgres createuser ubuntu -s
 
-apt install expect
+apt install expect -y
 
 ##############################################################################
 ## FILES FROM GIT
@@ -100,13 +100,11 @@ su - ubuntu -c 'git clone https://github.com/mllewellynjones/scripts.git /home/u
 su - ubuntu -c 'mkdir -p /home/ubuntu/mlj_vm'
 su - ubuntu -c 'git clone https://github.com/mllewellynjones/scripts.git /home/ubuntu/mlj_vm'
 
-
 ##############################################################################
 ## RUN SOME OF THE SCRIPTS
 ##############################################################################
 /home/ubuntu/scripts/default_password.exp
-/home/ubuntu/dotfiles/setup_symlinks.sh
-/home/ubuntu/scripts/adjust.sh
+su - ubuntu -c '/home/ubuntu/dotfiles/setup_symlinks.sh'
 
 ##############################################################################
 ## CONVERT TO DESKTOP
@@ -114,3 +112,4 @@ su - ubuntu -c 'git clone https://github.com/mllewellynjones/scripts.git /home/u
 # Although the GUI isn't required, the support for getting screen resolutions
 # correct is far more mature
 apt install ubuntu-desktop -y
+/home/ubuntu/scripts/adjust.sh
