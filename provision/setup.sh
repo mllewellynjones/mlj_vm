@@ -20,7 +20,9 @@ apt install virtualbox-guest-x11 -y
 ##############################################################################
 apt install git
 su - ubuntu -c 'git config --global user.email "m.llewellynjones@gmail.com"'
-su - ubuntu -c 'git config --global user.name "Matt Llewellyn-Jones"'
+su - ubuntu -c 'git config --global user.name "mllewellynjones"'
+su - ubuntu -c 'git config --global push.default simple'
+su - ubuntu -c 'git config --global credential.https://github.com.username mllewellynjones'
 
 ##############################################################################
 ## VIM
@@ -75,6 +77,7 @@ pip3 install --upgrade pip
 pip3 install cookiecutter
 
 pip3 install virtualenv
+pip3 install virtualenvwrapper
 
 apt install postgresql -y
 apt install python-psycopg2 -y
@@ -82,17 +85,28 @@ apt install libpq-dev -y
 
 sudo -u postgres createuser ubuntu -s
 
+apt install expect
+
 ##############################################################################
 ## FILES FROM GIT
 ##############################################################################
 echo "Grabbing files from GIT..."
 su - ubuntu -c 'mkdir -p /home/ubuntu/dotfiles'
-su - ubuntu -c 'git clone git://github.com/mllewellynjones/dotfiles.git /home/ubuntu/dotfiles'
-su - ubuntu -c 'mv /home/ubuntu/dotfiles/.b* /home/ubuntu/dotfiles/.v* /home/ubuntu'
-su - ubuntu -c 'sudo rm -rf /home/ubuntu/dotfiles'
+su - ubuntu -c 'git clone https://github.com/mllewellynjones/dotfiles.git /home/ubuntu/dotfiles'
 
 su - ubuntu -c 'mkdir -p /home/ubuntu/scripts'
-su - ubuntu -c 'git clone git://github.com/mllewellynjones/scripts.git /home/ubuntu/scripts'
+su - ubuntu -c 'git clone https://github.com/mllewellynjones/scripts.git /home/ubuntu/scripts'
+
+su - ubuntu -c 'mkdir -p /home/ubuntu/mlj_vm'
+su - ubuntu -c 'git clone https://github.com/mllewellynjones/scripts.git /home/ubuntu/mlj_vm'
+
+
+##############################################################################
+## RUN SOME OF THE SCRIPTS
+##############################################################################
+/home/ubuntu/scripts/default_password.exp
+/home/ubuntu/dotfiles/setup_symlinks.sh
+/home/ubuntu/scripts/adjust.sh
 
 ##############################################################################
 ## CONVERT TO DESKTOP
