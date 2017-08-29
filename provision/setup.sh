@@ -1,6 +1,15 @@
 #!/bin/bash
 
 ##############################################################################
+# CONSTANTS
+##############################################################################
+VM_USER=mlj
+VM_PASSWORD=secret
+PG_VERSION=9.5
+DB_USER=$VM_USER
+DB_PASSWORD=$VM_PASSWORD
+
+##############################################################################
 ## UBUNTU
 ##############################################################################
 # Bring Ubuntu up to date
@@ -79,9 +88,10 @@ pip3 install cookiecutter
 pip3 install virtualenv
 pip3 install virtualenvwrapper
 
-apt install postgresql -y
+apt install "postgresql-$PG_VERSION" -y
 apt install python-psycopg2 -y
 apt install libpq-dev -y
+apt install "postgresql-contrib-$PG_VERSION" -y
 
 sudo -u postgres createuser ubuntu -s
 
@@ -101,10 +111,50 @@ su - ubuntu -c 'mkdir -p /home/ubuntu/mlj_vm'
 su - ubuntu -c 'git clone https://github.com/mllewellynjones/mlj_vm.git /home/ubuntu/mlj_vm'
 
 ##############################################################################
+## POSTGRES SETUP
+##############################################################################
+PG_CONF="/etc/postgresql/$PG_VERSION/main/postgresql.conf"
+PG_HBA="/etc/postgresql/$PG_VERSION/main/pg_hba.conf"
+PG_DIR="/var/lib/postgresql/$PG_VERSION/main"
+
+# Edit postgresql.conf to change listen address to '*':
+sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" "$PG_CONF"
+
+# Append to pg_hba.conf to add password auth:
+echo "host    all             all             all                     md5" >> "$PG_HBA"
+
+# Explicitly set default client_encoding
+echo "client_encoding = utf8" >> "$PG_CONF"
+
+# Restart so that all new config is loaded:
+service postgresql restart
+
+cat << EOF | su - postgres -c psql
+-- Create the database user:
+CREATE USER $DB_USER WITH PASSWORD '$DB_PASSWORD';
+
+-- Create the database:
+CREATE DATABASE $DB_USER WITH OWNER=$DB_USER
+                              LC_COLLATE='en_US.utf8'
+                              LC_CTYPE='en_US.utf8'
+                              ENCODING='UTF8'
+                              TEMPLATE=template0;
+EOF
+
+##############################################################################
 ## RUN SOME OF THE SCRIPTS
 ##############################################################################
 /home/ubuntu/scripts/default_password.exp
 su - ubuntu -c '/home/ubuntu/dotfiles/setup_symlinks.sh'
+
+
+##############################################################################
+## USER
+##############################################################################
+sudo -c "useradd $VM_USER -m -g sudo"
+echo $VM_USER:$VM_PASSWORD | sudo chpasswd
+echo "mlj ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/mlj
+
 
 ##############################################################################
 ## CONVERT TO DESKTOP
