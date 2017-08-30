@@ -103,6 +103,7 @@ apt install expect -y
 echo "Grabbing files from GIT..."
 su - ubuntu -c 'mkdir -p /home/ubuntu/dotfiles'
 su - ubuntu -c 'git clone https://github.com/mllewellynjones/dotfiles.git /home/ubuntu/dotfiles'
+su - ubuntu -c '/home/ubuntu/dotfiles/setup_symlinks.sh'
 
 su - ubuntu -c 'mkdir -p /home/ubuntu/scripts'
 su - ubuntu -c 'git clone https://github.com/mllewellynjones/scripts.git /home/ubuntu/scripts'
@@ -135,17 +136,7 @@ CREATE USER $DB_USER WITH PASSWORD '$DB_PASSWORD';
 
 -- Create the database:
 CREATE DATABASE $DB_USER WITH OWNER=$DB_USER
-                              LC_COLLATE='en_US.utf8'
-                              LC_CTYPE='en_US.utf8'
-                              ENCODING='UTF8'
-                              TEMPLATE=template0;
 EOF
-
-##############################################################################
-## RUN SOME OF THE SCRIPTS
-##############################################################################
-/home/ubuntu/scripts/default_password.exp
-su - ubuntu -c '/home/ubuntu/dotfiles/setup_symlinks.sh'
 
 
 ##############################################################################
