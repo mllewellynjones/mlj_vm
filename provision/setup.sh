@@ -9,6 +9,7 @@ PG_VERSION=9.5
 DB_USER=$VM_USER
 DB_PASSWORD=$VM_PASSWORD
 
+
 ##############################################################################
 ## UBUNTU
 ##############################################################################
@@ -17,6 +18,7 @@ echo "Updating..."
 apt update -y
 apt upgrade -y
 
+
 ##############################################################################
 ## VIRTUALBOX SPECIFIC
 ##############################################################################
@@ -24,14 +26,23 @@ apt install virtualbox-guest-dkms -y
 apt install virtualbox-guest-utils -y
 apt install virtualbox-guest-x11 -y
 
+
+##############################################################################
+## USER
+##############################################################################
+sudo -c "useradd $VM_USER -m -g sudo"
+echo "$VM_USER:$VM_PASSWORD | sudo chpasswd"
+echo "$VM_USER ALL=(ALL) NOPASSWD:ALL" | sudo tee "/etc/sudoers.d/$VM_USER"
+
+
 ##############################################################################
 ## GIT
 ##############################################################################
 apt install git
-su - ubuntu -c 'git config --global user.email "m.llewellynjones@gmail.com"'
-su - ubuntu -c 'git config --global user.name "mllewellynjones"'
-su - ubuntu -c 'git config --global push.default simple'
-su - ubuntu -c 'git config --global credential.https://github.com.username mllewellynjones'
+su - $VM_USER -c 'git config --global user.email "m.llewellynjones@gmail.com"'
+su - $VM_USER -c 'git config --global user.name "mllewellynjones"'
+su - $VM_USER -c 'git config --global push.default simple'
+su - $VM_USER -c 'git config --global credential.https://github.com.username mllewellynjones'
 
 ##############################################################################
 ## VIM
@@ -40,34 +51,34 @@ echo "Setting up VIM..."
 apt install vim-nox -y
 
 # Get Pathogen
-mkdir -p /home/ubuntu/.vim/autoload /home/ubuntu/.vim/bundle
-curl -LSso /home/ubuntu/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+mkdir -p "/home/$VM_USER/.vim/autoload /home/$VM_USER/.vim/bundle"
+curl -LSso "/home/$VM_USER/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim"
 
 # Get NERDTree
-cd /home/ubuntu/.vim/bundle
+cd "/home/$VM_USER/.vim/bundle"
 git clone https://github.com/scrooloose/nerdtree.git
 
 # Get Command-T
 apt install ruby-dev -y
-cd /home/ubuntu/.vim/bundle
+cd "/home/$VM_USER/.vim/bundle"
 git clone https://github.com/wincent/Command-T.git
-cd /home/ubuntu/.vim/bundle/Command-T
+cd "/home/$VM_USER/.vim/bundle/Command-T"
 sudo rake make
 
 # Get YCM
 apt install cmake -y
-cd /home/ubuntu/.vim/bundle
+cd "/home/$VM_USER/.vim/bundle"
 git clone https://github.com/Valloric/YouCompleteMe.git
-cd /home/ubuntu/.vim/bundle/YouCompleteMe
+cd "/home/$VM_USER/.vim/bundle/YouCompleteMe"
 git submodule update --init --recursive
 ./install.py --clang-completer
 
 # Syntastic
-cd /home/ubuntu/.vim/bundle
+cd "/home/$VM_USER/.vim/bundle"
 git clone --depth=1 https://github.com/scrooloose/syntastic.git
 
 # Fugitive
-cd /home/ubuntu/.vim/bundle
+cd "/home/$VM_USER/.vim/bundle"
 git clone git://github.com/tpope/vim-fugitive.git
 vim -u NONE -c "helptags vim-fugitive/doc" -c q
 
@@ -93,7 +104,7 @@ apt install python-psycopg2 -y
 apt install libpq-dev -y
 apt install "postgresql-contrib-$PG_VERSION" -y
 
-sudo -u postgres createuser ubuntu -s
+sudo -u postgres createuser $VM_USER -s
 
 apt install expect -y
 
@@ -101,15 +112,15 @@ apt install expect -y
 ## FILES FROM GIT
 ##############################################################################
 echo "Grabbing files from GIT..."
-su - ubuntu -c 'mkdir -p /home/ubuntu/dotfiles'
-su - ubuntu -c 'git clone https://github.com/mllewellynjones/dotfiles.git /home/ubuntu/dotfiles'
-su - ubuntu -c '/home/ubuntu/dotfiles/setup_symlinks.sh'
+su - $VM_USER -c 'mkdir -p /home/$VM_USER/dotfiles'
+su - $VM_USER -c 'git clone https://github.com/mllewellynjones/dotfiles.git /home/$VM_USER/dotfiles'
+su - $VM_USER -c '/home/$VM_USER/dotfiles/setup_symlinks.sh'
 
-su - ubuntu -c 'mkdir -p /home/ubuntu/scripts'
-su - ubuntu -c 'git clone https://github.com/mllewellynjones/scripts.git /home/ubuntu/scripts'
+su - $VM_USER -c 'mkdir -p /home/$VM_USER/scripts'
+su - $VM_USER -c 'git clone https://github.com/mllewellynjones/scripts.git /home/$VM_USER/scripts'
 
-su - ubuntu -c 'mkdir -p /home/ubuntu/mlj_vm'
-su - ubuntu -c 'git clone https://github.com/mllewellynjones/mlj_vm.git /home/ubuntu/mlj_vm'
+su - $VM_USER -c 'mkdir -p /home/$VM_USER/mlj_vm'
+su - $VM_USER -c 'git clone https://github.com/mllewellynjones/mlj_vm.git /home/$VM_USER/mlj_vm'
 
 ##############################################################################
 ## POSTGRES SETUP
@@ -137,14 +148,6 @@ CREATE USER $DB_USER WITH PASSWORD '$DB_PASSWORD';
 -- Create the database:
 CREATE DATABASE $DB_USER WITH OWNER=$DB_USER
 EOF
-
-
-##############################################################################
-## USER
-##############################################################################
-sudo -c "useradd $VM_USER -m -g sudo"
-echo $VM_USER:$VM_PASSWORD | sudo chpasswd
-echo "mlj ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/mlj
 
 
 ##############################################################################
