@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ##############################################################################
-# CONSTANTS
+## CONSTANTS
 ##############################################################################
 VM_USER=mlj
 VM_PASSWORD=secret
@@ -30,8 +30,8 @@ apt install virtualbox-guest-x11 -y
 ##############################################################################
 ## USER
 ##############################################################################
-sudo -c "useradd $VM_USER -m -g sudo"
-echo "$VM_USER:$VM_PASSWORD | sudo chpasswd"
+sudo useradd "$VM_USER" -m -g sudo
+echo "$VM_USER:$VM_PASSWORD" | sudo chpasswd
 echo "$VM_USER ALL=(ALL) NOPASSWD:ALL" | sudo tee "/etc/sudoers.d/$VM_USER"
 
 
@@ -44,6 +44,7 @@ su - $VM_USER -c 'git config --global user.name "mllewellynjones"'
 su - $VM_USER -c 'git config --global push.default simple'
 su - $VM_USER -c 'git config --global credential.https://github.com.username mllewellynjones'
 
+
 ##############################################################################
 ## VIM
 ##############################################################################
@@ -52,7 +53,7 @@ apt install vim-nox -y
 
 # Get Pathogen
 mkdir -p "/home/$VM_USER/.vim/autoload /home/$VM_USER/.vim/bundle"
-curl -LSso "/home/$VM_USER/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim"
+curl -LSso "/home/$VM_USER/.vim/autoload/pathogen.vim" https://tpo.pe/pathogen.vim
 
 # Get NERDTree
 cd "/home/$VM_USER/.vim/bundle"
@@ -82,6 +83,7 @@ cd "/home/$VM_USER/.vim/bundle"
 git clone git://github.com/tpope/vim-fugitive.git
 vim -u NONE -c "helptags vim-fugitive/doc" -c q
 
+
 ##############################################################################
 ## PYTHON DEVELOPMENT
 ##############################################################################
@@ -106,21 +108,21 @@ apt install "postgresql-contrib-$PG_VERSION" -y
 
 sudo -u postgres createuser $VM_USER -s
 
-apt install expect -y
 
 ##############################################################################
 ## FILES FROM GIT
 ##############################################################################
 echo "Grabbing files from GIT..."
-su - $VM_USER -c 'mkdir -p /home/$VM_USER/dotfiles'
-su - $VM_USER -c 'git clone https://github.com/mllewellynjones/dotfiles.git /home/$VM_USER/dotfiles'
-su - $VM_USER -c '/home/$VM_USER/dotfiles/setup_symlinks.sh'
+su - $VM_USER -c 'mkdir -p /home/'"$VM_USER"'/dotfiles'
+su - $VM_USER -c 'git clone https://github.com/mllewellynjones/dotfiles.git /home/'"$VM_USER"'/dotfiles'
+su - $VM_USER -c '/home/'"$VM_USER"'/dotfiles/setup_symlinks.sh'
 
-su - $VM_USER -c 'mkdir -p /home/$VM_USER/scripts'
-su - $VM_USER -c 'git clone https://github.com/mllewellynjones/scripts.git /home/$VM_USER/scripts'
+su - $VM_USER -c 'mkdir -p /home/'"$VM_USER"'/scripts'
+su - $VM_USER -c 'git clone https://github.com/mllewellynjones/scripts.git /home/'"$VM_USER"'/scripts'
 
-su - $VM_USER -c 'mkdir -p /home/$VM_USER/mlj_vm'
-su - $VM_USER -c 'git clone https://github.com/mllewellynjones/mlj_vm.git /home/$VM_USER/mlj_vm'
+su - $VM_USER -c 'mkdir -p /home/'"$VM_USER"'/mlj_vm'
+su - $VM_USER -c 'git clone https://github.com/mllewellynjones/mlj_vm.git /home/'"$VM_USER"'/mlj_vm'
+
 
 ##############################################################################
 ## POSTGRES SETUP
