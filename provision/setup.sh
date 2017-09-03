@@ -158,3 +158,10 @@ EOF
 # Although the GUI isn't required, the support for getting screen resolutions
 # correct is far more mature
 apt install ubuntu-desktop -y
+
+
+##############################################################################
+## TURN OFF ERROR REPORTING
+##############################################################################
+sed -i "s/enabled=1/enabled=0/" /etc/default/apport 
+service apport restart
