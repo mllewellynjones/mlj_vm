@@ -51,28 +51,20 @@ su - $VM_USER -c 'git config --global credential.https://github.com.username mll
 echo "Setting up VIM..."
 apt install vim-nox -y
 
-# Get Pathogen
+# Pathogen
 mkdir -p "/home/$VM_USER/.vim/autoload /home/$VM_USER/.vim/bundle"
 curl -LSso "/home/$VM_USER/.vim/autoload/pathogen.vim" https://tpo.pe/pathogen.vim
 
-# Get NERDTree
+# NERDTree
 cd "/home/$VM_USER/.vim/bundle"
 git clone https://github.com/scrooloose/nerdtree.git
 
-# Get Command-T
+# Command-T
 apt install ruby-dev -y
 cd "/home/$VM_USER/.vim/bundle"
 git clone https://github.com/wincent/Command-T.git
 cd "/home/$VM_USER/.vim/bundle/Command-T"
 sudo rake make
-
-# Get YCM
-apt install cmake -y
-cd "/home/$VM_USER/.vim/bundle"
-git clone https://github.com/Valloric/YouCompleteMe.git
-cd "/home/$VM_USER/.vim/bundle/YouCompleteMe"
-git submodule update --init --recursive
-./install.py --clang-completer
 
 # Syntastic
 cd "/home/$VM_USER/.vim/bundle"
@@ -82,6 +74,14 @@ git clone --depth=1 https://github.com/scrooloose/syntastic.git
 cd "/home/$VM_USER/.vim/bundle"
 git clone git://github.com/tpope/vim-fugitive.git
 vim -u NONE -c "helptags vim-fugitive/doc" -c q
+
+# Python Mode
+cd "/home/$VM_USER/.vim/bundle"
+git clone https://github.com/python-mode/python-mode.git
+
+# Tagbars
+cd "/home/$VM_USER/.vim/bundle"
+git clone https://github.com/majutsushi/tagbar.git
 
 
 ##############################################################################
