@@ -116,10 +116,11 @@ apt install exuberant-ctags
 echo "Grabbing files from GIT..."
 su - $VM_USER -c 'mkdir -p /home/'"$VM_USER"'/dotfiles'
 su - $VM_USER -c 'git clone https://github.com/mllewellynjones/dotfiles.git /home/'"$VM_USER"'/dotfiles'
-su - $VM_USER -c '/home/'"$VM_USER"'/dotfiles/setup_symlinks.sh'
+su - $VM_USER -c '/home/'"$VM_USER"'/dotfiles/setup_symlinks'
 
 su - $VM_USER -c 'mkdir -p /home/'"$VM_USER"'/scripts'
 su - $VM_USER -c 'git clone https://github.com/mllewellynjones/scripts.git /home/'"$VM_USER"'/scripts'
+su - $VM_USER -c '/home/'"$VM_USER"'/scripts/setup_symlinks'
 
 su - $VM_USER -c 'mkdir -p /home/'"$VM_USER"'/mlj_vm'
 su - $VM_USER -c 'git clone https://github.com/mllewellynjones/mlj_vm.git /home/'"$VM_USER"'/mlj_vm'
