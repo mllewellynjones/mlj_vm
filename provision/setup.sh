@@ -52,7 +52,7 @@ echo "Setting up VIM..."
 apt install vim-nox -y
 
 # Pathogen
-mkdir -p "/home/$VM_USER/.vim/autoload /home/$VM_USER/.vim/bundle"
+mkdir -p "/home/$VM_USER/.vim/autoload" "/home/$VM_USER/.vim/bundle"
 curl -LSso "/home/$VM_USER/.vim/autoload/pathogen.vim" https://tpo.pe/pathogen.vim
 
 # NERDTree
