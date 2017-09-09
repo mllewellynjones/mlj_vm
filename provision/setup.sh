@@ -108,6 +108,7 @@ apt install "postgresql-contrib-$PG_VERSION" -y
 
 sudo -u postgres createuser $VM_USER -s
 
+apt install exuberant-ctags
 
 ##############################################################################
 ## FILES FROM GIT
