@@ -43,6 +43,8 @@ su - $VM_USER -c 'git config --global user.email "m.llewellynjones@gmail.com"'
 su - $VM_USER -c 'git config --global user.name "mllewellynjones"'
 su - $VM_USER -c 'git config --global push.default simple'
 su - $VM_USER -c 'git config --global credential.https://github.com.username mllewellynjones'
+su - $VM_USER -c 'git config --global core.excludesfile "~/.gitignore"'
+su - $VM_USER -c 'git config --global core.editor "vim"'
 
 
 ##############################################################################
